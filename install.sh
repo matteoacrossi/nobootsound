@@ -38,13 +38,18 @@ if [ "$uninstallmode" = true ]; then
 	
 else
 	echo "Copying files..."
+	# Create file .nobootsound_logoutvol where the mute state is stored
+	sudo -u $ACTUAL_USER touch ~/.nobootsound_logoutvol
+	sudo -u $ACTUAL_USER echo "false" > ~/.nobootsound_logoutvol
+	
+	# Copy login and logout scripts and make them executable
 	sudo -u $ACTUAL_USER cp nobootsound_loginhook ~/.nobootsound_loginhook
 	sudo -u $ACTUAL_USER cp nobootsound_logouthook ~/.nobootsound_logouthook
 	sudo -u $ACTUAL_USER chmod +x ~/.nobootsound_loginhook
 	sudo -u $ACTUAL_USER chmod +x ~/.nobootsound_logouthook
-	sudo -u $ACTUAL_USER echo "false" > ~/.nobootsound_logoutvol
 
 	echo "Registering hooks..."
+	# Register the scripts as login and logout hooks
 	defaults write com.apple.loginwindow LoginHook  ~/.nobootsound_loginhook
 	defaults write com.apple.loginwindow LogoutHook ~/.nobootsound_logouthook
 
