@@ -10,6 +10,8 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
+ACTUAL_USER=$(sudo stat -f '%Su' ~)
+
 uninstallmode=false
 
 while getopts ":u" opt; do
@@ -36,15 +38,14 @@ if [ "$uninstallmode" = true ]; then
 	
 else
 	echo "Copying files..."
-	cp nobootsound_loginhook ~/.nobootsound_loginhook
-	cp nobootsound_logouthook ~/.nobootsound_logouthook
-	chmod +x ~/.nobootsound_loginhook
-	chmod +x ~/.nobootsound_logouthook
-	
-	echo "false" > ~/.nobootsound_logoutvol
+	sudo -u $ACTUAL_USER cp nobootsound_loginhook ~/.nobootsound_loginhook
+	sudo -u $ACTUAL_USER cp nobootsound_logouthook ~/.nobootsound_logouthook
+	sudo -u $ACTUAL_USER chmod +x ~/.nobootsound_loginhook
+	sudo -u $ACTUAL_USER chmod +x ~/.nobootsound_logouthook
+	sudo -u $ACTUAL_USER echo "false" > ~/.nobootsound_logoutvol
 
 	echo "Registering hooks..."
-	defaults write com.apple.loginwindow LoginHook ~/.nobootsound_loginhook
+	defaults write com.apple.loginwindow LoginHook  ~/.nobootsound_loginhook
 	defaults write com.apple.loginwindow LogoutHook ~/.nobootsound_logouthook
 
 	echo "Done!"

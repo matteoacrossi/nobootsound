@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Store the state of volume right before shutdown
-osascript -e 'output muted of (get volume settings)' > .noboot_logoutvol
+osascript -e 'output muted of (get volume settings)' > .nobootsound_logoutvol
 
 # Mute volume, so that no sound will be played at boot
 osascript -e 'set volume with output muted'

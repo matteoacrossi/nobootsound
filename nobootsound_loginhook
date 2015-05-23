@@ -2,5 +2,5 @@
 # Read the value stored in .noboot_logoutvol to determine wether the
 # computer was muted before shutdown
 
-read val < .noboot_logoutvol
+read val < .nobootsound_logoutvol
 osascript -e "if not $val then set volume without output muted"
