@@ -3,4 +3,5 @@
 # computer was muted before shutdown
 
 read val < .nobootsound_logoutvol
+logger "Nobootsound restoring volume to previous value. Mute: $val"
 osascript -e "if not $val then set volume without output muted"
