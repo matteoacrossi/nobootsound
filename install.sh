@@ -9,6 +9,9 @@
 ECHO="$( which echo )"
 ECHO="${ECHO:-/opt/local/libexec/gnubin/echo}"
 
+#-- Directory containing this installer and the scripts to install.
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 #-- Bash version check for 'echo'
 [ -n "${BASH_VERSION}" ] \
   && ECHO="echo -e" \
@@ -52,8 +55,8 @@ else
 	sudo -u $ACTUAL_USER ${ECHO} "false" > ~/.nobootsound_logoutvol
 	
 	# Copy login and logout scripts and make them executable
-	sudo -u $ACTUAL_USER cp nobootsound_loginhook ~/.nobootsound_loginhook
-	sudo -u $ACTUAL_USER cp nobootsound_logouthook ~/.nobootsound_logouthook
+	sudo -u $ACTUAL_USER cp "${DIR}/nobootsound_loginhook" ~/.nobootsound_loginhook
+	sudo -u $ACTUAL_USER cp "${DIR}/nobootsound_logouthook" ~/.nobootsound_logouthook
 	sudo -u $ACTUAL_USER chmod +x ~/.nobootsound_loginhook
 	sudo -u $ACTUAL_USER chmod +x ~/.nobootsound_logouthook
 
