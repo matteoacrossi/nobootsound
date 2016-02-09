@@ -50,6 +50,8 @@ if [ "$uninstallmode" = true ]; then
 	rm "$installation_folder$loginhook"
 	rm "$installation_folder$logouthook"
 	rm "$installation_folder$logoutvolume"
+
+	${ECHO} "Done!"
 	
 else
 	${ECHO} "Copying files..."
