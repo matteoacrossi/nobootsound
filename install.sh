@@ -22,9 +22,6 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
-#-- Force OS X 'stat' in case of GNU version installed
-ACTUAL_USER=$(sudo /usr/bin/stat -f '%Su' ~)
-
 uninstallmode=false
 
 while getopts ":u" opt; do
@@ -52,13 +49,13 @@ if [ "$uninstallmode" = true ]; then
 else
 	${ECHO} "Copying files..."
 	# Create file .nobootsound_logoutvol where the mute state is stored
-	sudo -u $ACTUAL_USER ${ECHO} "false" > ~/.nobootsound_logoutvol
+	sudo ${ECHO} "false" > ~/.nobootsound_logoutvol
 	
 	# Copy login and logout scripts and make them executable
-	sudo -u $ACTUAL_USER cp "${DIR}/nobootsound_loginhook" ~/.nobootsound_loginhook
-	sudo -u $ACTUAL_USER cp "${DIR}/nobootsound_logouthook" ~/.nobootsound_logouthook
-	sudo -u $ACTUAL_USER chmod +x ~/.nobootsound_loginhook
-	sudo -u $ACTUAL_USER chmod +x ~/.nobootsound_logouthook
+	sudo cp "${DIR}/nobootsound_loginhook" ~/.nobootsound_loginhook
+	sudo cp "${DIR}/nobootsound_logouthook" ~/.nobootsound_logouthook
+	sudo chmod +x ~/.nobootsound_loginhook
+	sudo chmod +x ~/.nobootsound_logouthook
 
 	${ECHO} "Registering hooks..."
 	# Register the scripts as login and logout hooks
