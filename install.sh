@@ -5,6 +5,11 @@
 # and then hooking them to the login and logout
 #
 
+installation_folder="/Library/LogHook/"
+loginhook="nobootsound_loginhook"
+logouthook="nobootsound_logouthook"
+logoutvolume="nobootsound_logoutvol"
+
 #-- Find 'echo' program in PATH or use Mac Ports default location
 ECHO="$( which echo )"
 ECHO="${ECHO:-/opt/local/libexec/gnubin/echo}"
@@ -42,25 +47,29 @@ if [ "$uninstallmode" = true ]; then
 	defaults delete com.apple.loginwindow LogoutHook
 	
 	${ECHO} "Removing files..."
-	rm ~/.nobootsound_loginhook
-	rm ~/.nobootsound_logouthook
-	rm ~/.nobootsound_logoutvol
+	rm "$installation_folder$loginhook"
+	rm "$installation_folder$logouthook"
+	rm "$installation_folder$logoutvolume"
 	
 else
 	${ECHO} "Copying files..."
-	# Create file .nobootsound_logoutvol where the mute state is stored
-	sudo ${ECHO} "false" > ~/.nobootsound_logoutvol
+
+	# Create installation folder if it doesn't already exists.
+	mkdir -p "$installation_folder"
+
+	# Create file where the mute state is stored
+	sudo ${ECHO} "false" > "$installation_folder$logoutvolume"
 	
 	# Copy login and logout scripts and make them executable
-	sudo cp "${DIR}/nobootsound_loginhook" ~/.nobootsound_loginhook
-	sudo cp "${DIR}/nobootsound_logouthook" ~/.nobootsound_logouthook
-	sudo chmod +x ~/.nobootsound_loginhook
-	sudo chmod +x ~/.nobootsound_logouthook
+	sudo cp "${DIR}/$loginhook" "$installation_folder"
+	sudo cp "${DIR}/$logouthook" "$installation_folder"
+	sudo chmod +x "$installation_folder$loginhook"
+	sudo chmod +x "$installation_folder$logouthook"
 
 	${ECHO} "Registering hooks..."
 	# Register the scripts as login and logout hooks
-	defaults write com.apple.loginwindow LoginHook  ~/.nobootsound_loginhook
-	defaults write com.apple.loginwindow LogoutHook ~/.nobootsound_logouthook
+	defaults write com.apple.loginwindow LoginHook  "$installation_folder$loginhook"
+	defaults write com.apple.loginwindow LogoutHook "$installation_folder$logouthook"
 
 	${ECHO} "Done!"
 fi
