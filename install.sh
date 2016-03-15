@@ -17,11 +17,6 @@ ECHO="${ECHO:-/opt/local/libexec/gnubin/echo}"
 #-- Directory containing this installer and the scripts to install.
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-#-- Bash version check for 'echo'
-[ -n "${BASH_VERSION}" ] \
-  && ECHO="echo -e" \
-  || ECHO="echo"
-
 if [ "$(id -u)" != "0" ]; then
 	${ECHO} "You need administrative privileges to install this script.\nPlease run: sudo ./install.sh"
 	exit 1

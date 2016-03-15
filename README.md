@@ -10,7 +10,7 @@ To install the script, run the script `install.sh` with administrative privilege
 
     sudo sh install.sh
 	
-This script will just copy two files in the /Library/LogHook folder and register them as hooks for login and logout, so that they will be called each time the Mac is shut down and powered up.
+This script will just copy two files in the `/Library/LogHook` folder and register them as hooks for login and logout, so that they will be called each time the Mac is shut down and powered up.
 
 ## Removal instructions
 To uninstall the script, run the script `install.sh` with the `-u` flag with administrative privileges:
