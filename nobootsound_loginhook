@@ -2,6 +2,8 @@
 # Read the value stored in .noboot_logoutvol to determine wether the
 # computer was muted before shutdown
 
-read val < .nobootsound_logoutvol
+logoutvolume="/Library/LogHook/nobootsound_logoutvol"
+
+read val < "$logoutvolume"
 logger "Nobootsound restoring volume to previous value. Mute: $val"
 osascript -e "if not $val then set volume without output muted"
