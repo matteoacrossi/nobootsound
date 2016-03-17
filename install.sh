@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 # Install the script by moving the two script files 
-# to the user home directory ~ (hiding them with a dot .)
-# and then hooking them to the login and logout
+# to the /Library/LogHook/ directory and then 
+# hooking them to the login and logout.
 #
 
 installation_folder="/Library/LogHook/"
