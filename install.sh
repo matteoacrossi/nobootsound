@@ -10,15 +10,11 @@ loginhook="nobootsound_loginhook"
 logouthook="nobootsound_logouthook"
 logoutvolume="nobootsound_logoutvol"
 
-#-- Find 'echo' program in PATH or use Mac Ports default location
-ECHO="$( which echo )"
-ECHO="${ECHO:-/opt/local/libexec/gnubin/echo}"
-
 #-- Directory containing this installer and the scripts to install.
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ "$(id -u)" != "0" ]; then
-	${ECHO} "You need administrative privileges to install this script.\nPlease run: sudo ./install.sh"
+	printf "You need administrative privileges to install this script.\nPlease run: sudo ./install.sh\n"
 	exit 1
 fi
 
@@ -30,32 +26,32 @@ while getopts ":u" opt; do
 		uninstallmode=true
       ;;
     \?)
-      ${ECHO} "Invalid option: -$OPTARG" >&2
+      printf "Invalid option: -$OPTARG\n" >&2
       ;;
   esac
 done
 
 
 if [ "$uninstallmode" = true ]; then
-	${ECHO} "Removing hooks..."
+	printf "Removing hooks...\n"
 	defaults delete com.apple.loginwindow LoginHook
 	defaults delete com.apple.loginwindow LogoutHook
 	
-	${ECHO} "Removing files..."
+	printf "Removing files...\n"
 	rm "$installation_folder$loginhook"
 	rm "$installation_folder$logouthook"
 	rm "$installation_folder$logoutvolume"
 
-	${ECHO} "Done!"
+	printf "Done!\n"
 	
 else
-	${ECHO} "Copying files..."
+	printf "Copying files...\n"
 
 	# Create installation folder if it doesn't already exists.
 	mkdir -p "$installation_folder"
 
 	# Create file where the mute state is stored
-	sudo ${ECHO} "false" > "$installation_folder$logoutvolume"
+	sudo printf "false" > "$installation_folder$logoutvolume"
 	
 	# Copy login and logout scripts and make them executable
 	sudo cp "${DIR}/$loginhook" "$installation_folder"
@@ -63,10 +59,10 @@ else
 	sudo chmod +x "$installation_folder$loginhook"
 	sudo chmod +x "$installation_folder$logouthook"
 
-	${ECHO} "Registering hooks..."
+	printf "Registering hooks...\n"
 	# Register the scripts as login and logout hooks
 	defaults write com.apple.loginwindow LoginHook  "$installation_folder$loginhook"
 	defaults write com.apple.loginwindow LogoutHook "$installation_folder$logouthook"
 
-	${ECHO} "Done!"
+	printf "Done!\n"
 fi
