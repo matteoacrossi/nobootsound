@@ -16,3 +16,6 @@ This script will just copy two files in the `/Library/LogHook` folder and regist
 To uninstall the script, run the script `install.sh` with the `-u` flag with administrative privileges:
 
     sudo sh install.sh -u
+
+## Known limitations
+The script doesn't work when headphones or external speakers are plugged in. This is due to the fact that the chime always comes from the internal speaker, but this is not accessible to Applescript when the headphones are plugged in.
